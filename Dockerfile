@@ -9,8 +9,10 @@ RUN sh /mkcert.sh && rm -f /mkcert.sh /dovecot-openssl.cnf
 
 ADD supervisor /etc/supervisor
 ADD dovecot/10-master.conf /etc/dovecot/conf.d/
-ADD dovecot/10-auth.conf   /etc/dovecot/conf.d/
-ADD dovecot/10-ssl.conf    /etc/dovecot/conf.d/
+ADD dovecot/10-auth.conf /etc/dovecot/conf.d/
+ADD dovecot/10-ssl.conf /etc/dovecot/conf.d/
+ADD dovecot/10-logging.conf /etc/dovecot/conf.d/
+ADD dovecot/15-lda.conf /etc/dovecot/conf.d/
 ADD postfix/master.cf /etc/postfix/
 
 VOLUME ["/var/mail", "/home"]
