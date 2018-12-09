@@ -4,7 +4,6 @@ Usage: start mail server
 
 Main usage:
 
-
 ```
 
 # 在宿主机上创建一个目录/srv/mail/home，此目录将被挂载到docker容器的/home
@@ -23,16 +22,14 @@ docker exec mail /useradd your_name your_password
 For Debug:
 
 ```
-docker run -e mydomain=example.com \
-    -v /dev/log:/dev/log \
-    -p 10025:25 -p 465:465 -p 143:143 -p 993:993 inetlinux/mail
+docker run -e mydomain=example.com -v /dev/log:/dev/log -p 465:465 -p 143:143 -p 993:993 inetlinux/mail
+docker exec mail /useradd jett 654321
+
 docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
 ```
 
 verify
 ------
-
-
 
 
 APPENDIX A - build
