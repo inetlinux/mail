@@ -1,4 +1,3 @@
-
 Usage: start mail server
 ========================
 
@@ -22,9 +21,10 @@ docker exec mail /useradd your_name your_password
 For Debug:
 
 ```
-docker run -e mydomain=example.com -v /dev/log:/dev/log -p 465:465 -p 143:143 -p 993:993 inetlinux/mail
+docker run -e mydomain=example.com -v /dev/log:/dev/log -p 10025:25 -p 465:465 -p 143:143 -p 993:993 inetlinux/mail
 
-# found contain id by docker ps
+# find contain id by docker ps
+# add user jett with password 654321
 docker exec <contain_id> /useradd jett 654321
 
 docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
@@ -32,7 +32,6 @@ docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
 
 verify
 ------
-
 
 APPENDIX A - build
 ==================
