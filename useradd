@@ -19,15 +19,15 @@ def main():
             raise ValueError('Error in generating password')
         cmd = "useradd -g mail -p '{0}' -s /sbin/nologin {1}".format(ciphertext, args.username)
         print cmd
-        subprocess.check(cmd, shell=True)
+        subprocess.check_call(cmd, shell=True)
 
         cmd = "mkdir /home/{0}/mail".format(args.username)
         print cmd
-        subprocess.check(cmd, shell=True)
+        subprocess.check_call(cmd, shell=True)
 
         cmd = "chown -R {0}.mail /home/{0}/mail".format(args.username)
         print cmd
-        subprocess.check(cmd, shell=True)
+        subprocess.check_call(cmd, shell=True)
 
     except Exception as e:
         ret = -1
