@@ -38,3 +38,4 @@ $OPENSSL req -new -x509 -nodes -config $OPENSSLCONFIG -out $CERTFILE -keyout $KE
 chmod 0600 $KEYFILE
 echo
 $OPENSSL x509 -subject -fingerprint -noout -in $CERTFILE || exit 2
+exit 0

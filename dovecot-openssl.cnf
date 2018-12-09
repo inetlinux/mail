@@ -19,13 +19,12 @@ L=Chaoyang
 O=Inetlinux
 
 # Organizational Unit Name (eg. section)
-OU=IMAP server
+OU=Mail
 
-# Common Name (*.example.com is also possible)
-CN=imap.example.com
+CN=mail.inetlinux.com
 
 # E-mail contact
-emailAddress=postmaster@example.com
+emailAddress=postmaster@inetlinux.com
 
 [ cert_type ]
 nsCertType = server
