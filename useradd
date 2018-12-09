@@ -17,8 +17,18 @@ def main():
         ciphertext = crypt.crypt(args.password, crypt.METHOD_SHA512)
         if crypt.crypt(args.password, ciphertext) != ciphertext:
             raise ValueError('Error in generating password')
-        cmd = 'useradd -g mail -p {0} -s /sbin/nologin {1}'.format(ciphertext, args.username)
-        ret = subprocess.call(cmd, shell=True)
+        cmd = "useradd -g mail -p '{0}' -s /sbin/nologin {1}".format(ciphertext, args.username)
+        print cmd
+        subprocess.check(cmd, shell=True)
+
+        cmd = "mkdir /home/{0}/mail".format(args.username)
+        print cmd
+        subprocess.check(cmd, shell=True)
+
+        cmd = "chown -R {0}.mail /home/{0}/mail".format(args.username)
+        print cmd
+        subprocess.check(cmd, shell=True)
+
     except Exception as e:
         ret = -1
         print e
