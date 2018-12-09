@@ -23,7 +23,9 @@ For Debug:
 
 ```
 docker run -e mydomain=example.com -v /dev/log:/dev/log -p 465:465 -p 143:143 -p 993:993 inetlinux/mail
-docker exec mail /useradd jett 654321
+
+# found contain id by docker ps
+docker exec <contain_id> /useradd jett 654321
 
 docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
 ```
