@@ -14,6 +14,10 @@ mkdir -p /srv/mail
 docker run -d -n mail -e mydomain=example.com \
     -v /dev/log:/dev/log -v /srv/mail:/home \
     -p 10025:25 -p 465:465 -p 143:143 -p 993:993 -p 110:110 -p 995:995 inetlinux/mail
+
+# Add user
+docker exec mail /useradd your_name your_password
+
 ```
 
 For Debug:
