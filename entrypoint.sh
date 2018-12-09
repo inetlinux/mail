@@ -4,10 +4,6 @@ echo $#
 echo $0
 echo $1
 if [ $# -gt 1 -a "$1" = "/usr/bin/supervisord" ]; then
-    mkdir /etc/dovecot/private
-    ln -s /etc/pki/tls/certs/dovecot.pem /etc/dovecot/dovecot.pem
-    ln -s /etc/pki/tls/private/dovecot.pem /etc/dovecot/private/dovecot.pem
-
     postconf -e 'inet_interfaces = all'
     postconf -e mydomain=$mydomain
     postconf -e myhostname=mail.$mydomain
