@@ -9,6 +9,7 @@ RUN sh /mkcert.sh && rm -f /mkcert.sh /dovecot-openssl.cnf
 
 ADD supervisor /etc/supervisor
 ADD dovecot/10-master.conf /etc/dovecot/conf.d/
+ADD dovecot/10-mail.conf /etc/dovecot/conf.d/
 ADD dovecot/10-auth.conf /etc/dovecot/conf.d/
 ADD dovecot/10-ssl.conf /etc/dovecot/conf.d/
 ADD dovecot/10-logging.conf /etc/dovecot/conf.d/
