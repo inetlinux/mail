@@ -45,12 +45,14 @@ if [ "${1}x" = "/usr/bin/supervisordx" ]; then
 
     postconf -e "smtpd_tls_cert_file = $crtfile"
     postconf -e "smtpd_tls_key_file = $keyfile"
-    postconf -e 'smtpd_tls_loglevel = 0'
-    postconf -e 'smtpd_tls_security_level = may'
+    postconf -e 'smtpd_tls_loglevel = 2'
+    postconf -e 'smtpd_tls_security_level = encrypt'
+    postconf -e 'smtp_tls_loglevel = 2'
+    postconf -e 'smtp_tls_security_level = encrypt'
 
     postconf -e 'smtpd_sasl_type = dovecot'
     postconf -e 'smtpd_sasl_auth_enable = yes'
-    postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
+    postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject'
     postconf -e 'smtpd_sasl_path = private/auth'
     echo "done"
 fi
