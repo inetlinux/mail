@@ -4,9 +4,8 @@ echo $@
 if [ "${1}x" = "/usr/bin/supervisordx" ]; then
     echo "configure postfix"
     postconf -e 'inet_interfaces = all'
-    postconf -e mydomain=$mydomain
-    postconf -e myhostname=mail.$mydomain
-    postconf -e "mydestination = localhost, localhost.$mydomain, $myhostname, $mydomain"
+    postconf -e "myhostname=mail.$mydomain"
+    postconf -e 'mydestination = localhost, localhost.$mydomain, $myhostname, $mydomain'
     postconf -e 'home_mailbox = mail/'
     postconf -e 'mailbox_command = /usr/libexec/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"'
     postconf -e 'message_size_limit=52428800'
