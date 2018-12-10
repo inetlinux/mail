@@ -1,9 +1,9 @@
-#!/bin/bash -e
+#!/bin/bash
 
 /usr/libexec/postfix/aliasesdb
 /usr/sbin/postfix start
 
-while [ /bin/true ]; then
-    postfix status
+while [ 0 ]; do
+    postfix status || /usr/sbin/postfix start
     sleep 60
-fi
+done
