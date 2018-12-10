@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 echo $@
-if [ "/${1}" = "//usr/bin/supervisord"]; then
+if [ "${1}x" = "/usr/bin/supervisordx" ]; then
     echo "configure postfix"
     postconf -e 'inet_interfaces = all'
     postconf -e mydomain=$mydomain
