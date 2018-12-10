@@ -81,6 +81,10 @@ Verify
     221 2.0.0 Bye
 
 
+https://wiki.zimbra.com/wiki/Simple_Troubleshooting_For_SMTP_Via_Telnet_And_Openssl
+
+
+
 APPENDIX A - build
 ==================
 
