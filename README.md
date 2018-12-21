@@ -9,8 +9,7 @@ Main usage:
 mkdir -p /srv/mail
 
 # start docker container
-docker run -d --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home \
-    -p 25:25 -p 465:465 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail
+docker run -d --name mail -v /dev/log:/dev/log -v /srv/mail:/home -p 25:25 -p 465:465 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail:v1
 
 # Add user
 docker exec mail /useradd your_name your_password
@@ -32,8 +31,11 @@ docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
 
 Security
 --------
+
 http://www.postfix.org/TLS_README.html
+
 http://www.postfix.org/SASL_README.html
+
 https://wiki.dovecot.org/SSL
 
 
