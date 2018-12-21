@@ -36,6 +36,7 @@ if [ "${1}x" = "/usr/bin/supervisordx" ]; then
 
     echo "configure postfix"
     postconf -e 'inet_interfaces = all'
+    postconf -e 'inet_protocols = ipv4'
     postconf -e "myhostname=mail.$mydomain"
     postconf -e 'mydestination = localhost, localhost.$mydomain, $myhostname, $mydomain'
     postconf -e 'home_mailbox = mail/'
