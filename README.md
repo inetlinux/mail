@@ -9,7 +9,7 @@ Main usage:
 mkdir -p /srv/mail
 
 # start docker container
-docker run -d --name mail -v /dev/log:/dev/log -v /srv/mail:/home -p 25:25 -p 465:465 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail:v1.0
+docker run -d --name mail -v /dev/log:/dev/log -v /srv/mail:/home -p 25:25 -p 465:465 -p 587:587 -p 993:993 inetlinux/mail:v1.0
 
 # Add user
 docker exec mail /useradd your_name your_password
