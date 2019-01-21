@@ -5,11 +5,13 @@ Main usage:
 
 ```
 
+
+
 # 在宿主机上创建一个目录/srv/mail/home，此目录将被挂载到docker容器的/home
 mkdir -p /srv/mail
 
 # start docker container
-docker run -d --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home \
+docker run -d --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home --restart=always \
     -p 25:25 -p 465:465 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail
 
 # Add user
