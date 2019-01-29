@@ -4,15 +4,11 @@ Usage: start mail server
 Main usage:
 
 ```
-
-
-
 # 在宿主机上创建一个目录/srv/mail/home，此目录将被挂载到docker容器的/home
 mkdir -p /srv/mail
 
 # start docker container
-docker run -d --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home --restart=always \
-    -p 25:25 -p 465:465 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail
+docker run -d --restart=always --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home -p 25:25 -p 993:993 inetlinux/mail
 
 # Add user
 docker exec mail /useradd your_name your_password
@@ -42,51 +38,44 @@ https://wiki.dovecot.org/SSL
 Verify
 ------
 
-### TLS/SSL
+### StartTLS, sendmail with protocols
 
-    openssl s_client -starttls smtp -crlf -connect mail.example.com:25
-    openssl s_client -starttls smtp -crlf -connect mail.example.com:25
-    openssl s_client -crlf -connect mail.example.com:465
+```
+$ openssl s_client -starttls smtp -crlf -connect mail.example.com:25
+....
+ehlo myhostname
+250-mail.example.com
+250-PIPELINING
+250-SIZE 51200000
+250-VRFY
+250-ETRN
+250-AUTH PLAIN LOGIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+auth plain <base64_value>
+235 2.7.0 Authentication successful
+mail from: <admin@example.com>
+250 2.1.0 Ok
+rcpt to: <demo@example.com>
+250 2.1.5 Ok
+data
+354 End data with <CR><LF>.<CR><LF>
+Subject: Test auth plain
+testing
+.
+250 2.0.0 Ok: queued as BCE3A2208564E
+quit
+221 2.0.0 Bye
+closed
+```
 
-### For ESMTP Auth is LOGIN
+Replace `<base64_value>` with appropriate value, the value of `auth plain` is `base64('authorization-id\0authentication-id\0passwd')` where `\0` is the null byte. Generate base64 string as follow:
 
-    telnet mail.example.com 25
-    ehlo myhostname
-    250-mail.example.com
-    250-PIPELINING
-    250-SIZE 51200000
-    250-VRFY
-    250-ETRN
-    250-STARTTLS
-    250-AUTH PLAIN LOGIN
-    250-ENHANCEDSTATUSCODES
-    250-8BITMIME
-    250 DSN
-    auth login
-    334 VXNlcm5hbWU6
-    amV0dEBleGFtcGxlLmNvbQ==
-    334 UGFzc3dvcmQ6
-    NjU0MzIx
-    235 2.7.0 Authentication successful
-    mail from: <jett@example.com>
-    250 2.1.0 Ok
-    rcpt to: <jett@example.com>
-    250 2.1.5 Ok
-    data
-    From: Jett <jett@example.com>
-    To: Adam 2 <ajcody2@zcs723.EXAMPLE.com>
-    Subject: Test ESMTP Auth LOGIN
-    testing
-    .
-    250 2.0.0 Ok: queued as 6F90A119415
-    quit
-    221 2.0.0 Bye
-
-
-https://wiki.zimbra.com/wiki/Simple_Troubleshooting_For_SMTP_Via_Telnet_And_Openssl
-
-
-
+```
+python -c "import base64; print base64.b64encode('demo\0demo\0password')"
+ZGVtbwBkZW1vAHBhc3N3b3Jk
+```
 APPENDIX A - build
 ==================
 
