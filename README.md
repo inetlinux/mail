@@ -13,7 +13,16 @@ docker run -d --restart=always --name mail -e mydomain=example.com -v /dev/log:/
 # Add user
 docker exec mail /useradd your_name your_password
 
+# Use alternative certificate for your domain
+docker run -d --restart=always --name mail -e mydomain=inetlinux.com\
+    -v /dev/log:/dev/log\
+    -v /srv/mail:/home\
+    -v /etc/pki/tls/private/inetlinux.com.key:/etc/pki/tls/private/dovecot.pem\
+    -v /etc/pki/tls/certs/inetlinux.com.crt:/etc/pki/tls/certs/dovecot.pem\
+    -p 25:25 -p 993:993 inetlinux/mail
+
 ```
+
 
 For Debug:
 
