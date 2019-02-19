@@ -106,10 +106,10 @@ docker run -d --restart=always --name mail -e mydomain=example.com\
     -e ldapbinddn="cn=admin,dc=example,dc=com"\
     -e ldapbindpw="youpassword"\
     -v /dev/log:/dev/log\
-    -v /srv/mail:/home\
+    -v /home:/home\
     -v /etc/pki/tls/private/inetlinux.com.key:/etc/pki/tls/private/dovecot.pem\
     -v /etc/pki/tls/certs/inetlinux.com.crt:/etc/pki/tls/certs/dovecot.pem\
-    -p 25:25 -p 993:993 inetlinux/mail:ldap
+    -p 25:25 -p 587:587 -p 993:993 inetlinux/mail:ldap
 
 ```
 
