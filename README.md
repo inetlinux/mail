@@ -116,7 +116,4 @@ docker run -d --restart=always --name mail -e mydomain=example.com\
 APPENDIX A - build
 ==================
 
-    docker build --force-rm -t inetlinux/mail .
-
-    # delete images named <none>
-    docker rmi $(docker images |grep '<none>'|awk '{ print $3 }')
+    docker build --force-rm -t inetlinux/mail:ldap .
