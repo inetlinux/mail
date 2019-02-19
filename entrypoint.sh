@@ -34,6 +34,11 @@ if [ "${1}x" = "/usr/bin/supervisordx" ]; then
         openssl x509 -subject -fingerprint -noout -in $crtfile
     fi
 
+    sed -i "s/{{ldaphost}}/${ldaphost}/" /etc/postfix/ldap/*      /etc/dovecot/dovecot-ldap.conf.ext
+    sed -i "s/{{ldapbase}}/${ldapbase}/" /etc/postfix/ldap/*      /etc/dovecot/dovecot-ldap.conf.ext
+    sed -i "s/{{ldapbinddn}}/${ldapbinddn}/" /etc/postfix/ldap/*  /etc/dovecot/dovecot-ldap.conf.ext
+    sed -i "s/{{ldapbindpw}}/${ldapbindpw}/" /etc/postfix/ldap/*  /etc/dovecot/dovecot-ldap.conf.ext
+
     echo "configure postfix"
     postconf -e 'inet_interfaces = all'
     postconf -e 'inet_protocols = ipv4'

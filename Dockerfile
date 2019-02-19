@@ -18,7 +18,7 @@ ADD dovecot/10-ssl.conf /etc/dovecot/conf.d/
 ADD dovecot/10-logging.conf /etc/dovecot/conf.d/
 ADD dovecot/15-lda.conf /etc/dovecot/conf.d/
 ADD postfix/master.cf /etc/postfix/
-ADD postfix/ldap /etc/postfix/
+ADD postfix/ldap /etc/postfix/ldap/
 
 VOLUME ["/var/mail", "/home"]
 EXPOSE 25 587 993 995

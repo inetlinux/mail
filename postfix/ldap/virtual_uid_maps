@@ -5,7 +5,7 @@ search_base = {{ldapbase}}
 scope = sub
 version = 3
 bind = yes
-bind_dn = {{ldapbinddb}}
+bind_dn = {{ldapbinddn}}
 bind_pw = {{ldapbindpw}}
 
 ## Query ##
