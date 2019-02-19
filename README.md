@@ -117,6 +117,3 @@ APPENDIX A - build
 ==================
 
     docker build --force-rm -t inetlinux/mail .
-
-    # delete images named <none>
-    docker rmi $(docker images |grep '<none>'|awk '{ print $3 }')
