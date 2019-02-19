@@ -47,14 +47,24 @@ if [ "${1}x" = "/usr/bin/supervisordx" ]; then
     postconf -e "smtpd_tls_cert_file = $crtfile"
     postconf -e "smtpd_tls_key_file = $keyfile"
     postconf -e 'smtpd_tls_loglevel = 2'
-    postconf -e 'smtpd_tls_security_level = encrypt'
+    postconf -e 'smtpd_tls_security_level = may'
     postconf -e 'smtp_tls_loglevel = 2'
-    postconf -e 'smtp_tls_security_level = encrypt'
+    postconf -e 'smtp_tls_security_level = may'
 
     postconf -e 'smtpd_sasl_type = dovecot'
     postconf -e 'smtpd_sasl_auth_enable = yes'
     postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject'
     postconf -e 'smtpd_sasl_path = private/auth'
+
+    postconf -e 'virtual_mailbox_domains = $myhostname'
+    postconf -e 'virtual_alias_domains = ldap:/etc/postfix/ldap/virtual_alias_domains'
+    postconf -e 'virtual_alias_maps = ldap:/etc/postfix/ldap/virtual_alias_maps'
+    postconf -e 'virtual_mailbox_base = /'
+    postconf -e 'virtual_mailbox_maps = ldap:/etc/postfix/ldap/virtual_mailbox_maps'
+    postconf -e 'virtual_uid_maps = ldap:/etc/postfix/ldap/virtual_uid_maps'
+    postconf -e 'virtual_gid_maps = ldap:/etc/postfix/ldap/virtual_uid_maps'
+    postconf -e 'smtpd_sender_login_maps = ldap:/etc/postfix/ldap/smtpd_sender_login_maps'
+
     echo "done"
 fi
 

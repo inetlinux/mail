@@ -85,6 +85,34 @@ Replace `<base64_value>` with appropriate value, the value of `auth plain` is `b
 python -c "import base64; print base64.b64encode('demo\0demo\0password')"
 ZGVtbwBkZW1vAHBhc3N3b3Jk
 ```
+
+LDAP
+====
+
+REF: https://www.vennedey.net/resources/2-LDAP-managed-mail-server-with-Postfix-and-Dovecot-for-multiple-domains
+
+The LDAP directory needs to keep several information needed by Postfix and Dovecot to work.
+
+* Username & Password for authentication
+* UID and GID for managing permissions of the user's maildir
+* Location of the maildir
+* List of mail aliases for a given user to allow one user to have several mail adresses.
+
+
+```
+docker run -d --restart=always --name mail -e mydomain=example.com\
+    -e ldaphost="172.17.0.1" \
+    -e ldapbase="dc=example,dc=com" \
+    -e ldapbinddn="cn=admin,dc=example,dc=com"\
+    -e ldapbindpw="youpassword"\
+    -v /dev/log:/dev/log\
+    -v /srv/mail:/home\
+    -v /etc/pki/tls/private/inetlinux.com.key:/etc/pki/tls/private/dovecot.pem\
+    -v /etc/pki/tls/certs/inetlinux.com.crt:/etc/pki/tls/certs/dovecot.pem\
+    -p 25:25 -p 993:993 inetlinux/mail:ldap
+
+```
+
 APPENDIX A - build
 ==================
 

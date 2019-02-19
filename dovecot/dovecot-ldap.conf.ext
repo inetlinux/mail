@@ -1,0 +1,11 @@
+uris = ldap://{{ldaphost}}
+dn = {{ldapbinddn}}
+dnpass = {{ldapbindpw}}
+debug_level = 0
+auth_bind = yes
+auth_bind_userdn = uid=%u,ou=User,{{ldapbase}}
+ldap_version = 3
+base = ou=User,{{ldapbase}}
+scope = subtree
+user_attrs = homeDirectory=home,uidNumber=uid,gidNumber=gid
+user_filter = (&(objectClass=posixAccount)(uid=%u))

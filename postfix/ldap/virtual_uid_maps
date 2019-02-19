@@ -1,0 +1,13 @@
+## Common Config ##
+Debuglevel = 0
+server_host = ldap://{{ldaphost}}
+search_base = {{ldapbase}}
+scope = sub
+version = 3
+bind = yes
+bind_dn = {{ldapbinddb}}
+bind_pw = {{ldapbindpw}}
+
+## Query ##
+query_filter = maildrop=%s
+result_attribute = uidNumber
