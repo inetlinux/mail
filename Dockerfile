@@ -6,7 +6,8 @@ ENV ldapbase="dc=example,dc=com"
 ENV ldapbinddn="cn=admin,dc=example,dc=com"
 ENV ldapbindpw="bindpw"
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && python /tmp/get-pip.py && yum install -y postfix dovecot && pip install supervisor && rm -rf /etc/supervisord.conf /tmp/get-pip.py /var/cache/yum /root/.cache/pip
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && python /tmp/get-pip.py && yum install -y postfix dovecot openldap-clients && pip install supervisor && rm -rf /etc/supervisord.conf /tmp/get-pip.py /var/cache/yum /root/.cache/pip
 
 ADD postfix/postfix.sh entrypoint.sh useradd /
 ADD supervisor /etc/supervisor
