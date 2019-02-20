@@ -1,47 +1,57 @@
-Usage: start mail server
-========================
+Postfix and dovecot with LDAP
+=============================
 
-Main usage:
+The LDAP directory needs to keep several information needed by Postfix and Dovecot to work.
+
+* Username & Password for authentication
+* UID and GID for managing permissions of the user's maildir
+* Location of the maildir
+* List of mail aliases for a given user to allow one user to have several mail adresses.
+
+
+Usage
+-----
 
 ```
-# 在宿主机上创建一个目录/srv/mail/home，此目录将被挂载到docker容器的/home
-mkdir -p /srv/mail
+mkdir /srv/mail
 
-# start docker container
-docker run -d --restart=always --name mail -e mydomain=example.com -v /dev/log:/dev/log -v /srv/mail:/home -p 25:25 -p 993:993 inetlinux/mail
-
-# Add user
-docker exec mail /useradd your_name your_password
-
-# Use alternative certificate for your domain
-docker run -d --restart=always --name mail -e mydomain=inetlinux.com\
+docker run -d --restart=always --name mail -e mydomain=example.com\
+    -e ldaphost="172.17.0.1" \
+    -e ldapbase="dc=example,dc=com" \
+    -e ldapbinddn="cn=admin,dc=example,dc=com"\
+    -e ldapbindpw="youpassword"\
     -v /dev/log:/dev/log\
     -v /srv/mail:/home\
     -v /etc/pki/tls/private/inetlinux.com.key:/etc/pki/tls/private/dovecot.pem\
     -v /etc/pki/tls/certs/inetlinux.com.crt:/etc/pki/tls/certs/dovecot.pem\
-    -p 25:25 -p 993:993 inetlinux/mail
+    -p 25:25 -p 587:587 -p 993:993 inetlinux/mail:ldap
 
 ```
 
+Configuration
+-------------
 
-For Debug:
+### Postfix
 
-```
-docker run -v /dev/log:/dev/log -p 25:25 -p 587:587 -p 143:143 -p 993:993 inetlinux/mail
+#### LDAP Mapping
 
-# find contain id by docker ps
-# add user jett with password 654321
-docker exec <contain_id> /useradd jett 654321
+Test the mapping with the postmap command, see [LDAP lookup tables](http://www.postfix.org/ldap_table.5.html)
 
-docker run --rm -v /home:/home -it inetlinux/mail /bin/bash
-```
+    postmap -q example.com ldap:/etc/postfix/ldap/virtual_alias_domains
+    postmap -q lijing@example.com ldap:/etc/postfix/ldap/virtual_mailbox_maps
+    postmap -q lijing@example.com ldap:/etc/postfix/ldap/virtual_uid_maps
+    postmap -q lijing@example.com ldap:/etc/postfix/ldap/smtpd_sender_login_maps
 
+#### The Mailboxes
 
-Security
---------
-http://www.postfix.org/TLS_README.html
-http://www.postfix.org/SASL_README.html
-https://wiki.dovecot.org/SSL
+Use of the _virtual alias domain class_ and the (_virtual mailbox domain class_)[http://www.postfix.org/ADDRESS_CLASS_README.html].
+
+### Configuration References
+
+[TLS](http://www.postfix.org/TLS_README.html)
+[SASL](http://www.postfix.org/SASL_README.html)
+[LDAP](http://www.postfix.org/LDAP_README.html)
+[Dovecot SSL](https://wiki.dovecot.org/SSL)
 
 
 Verify
@@ -86,34 +96,12 @@ python -c "import base64; print base64.b64encode('demo\0demo\0password')"
 ZGVtbwBkZW1vAHBhc3N3b3Jk
 ```
 
-LDAP
-====
-
-REF: https://www.vennedey.net/resources/2-LDAP-managed-mail-server-with-Postfix-and-Dovecot-for-multiple-domains
-
-The LDAP directory needs to keep several information needed by Postfix and Dovecot to work.
-
-* Username & Password for authentication
-* UID and GID for managing permissions of the user's maildir
-* Location of the maildir
-* List of mail aliases for a given user to allow one user to have several mail adresses.
-
-
-```
-docker run -d --restart=always --name mail -e mydomain=example.com\
-    -e ldaphost="172.17.0.1" \
-    -e ldapbase="dc=example,dc=com" \
-    -e ldapbinddn="cn=admin,dc=example,dc=com"\
-    -e ldapbindpw="youpassword"\
-    -v /dev/log:/dev/log\
-    -v /home:/home\
-    -v /etc/pki/tls/private/inetlinux.com.key:/etc/pki/tls/private/dovecot.pem\
-    -v /etc/pki/tls/certs/inetlinux.com.crt:/etc/pki/tls/certs/dovecot.pem\
-    -p 25:25 -p 587:587 -p 993:993 inetlinux/mail:ldap
-
-```
-
 APPENDIX A - build
 ==================
 
     docker build --force-rm -t inetlinux/mail:ldap .
+
+APPENDIX B - REFERENCE
+======================
+
+https://www.vennedey.net/resources/2-LDAP-managed-mail-server-with-Postfix-and-Dovecot-for-multiple-domains
