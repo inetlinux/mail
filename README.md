@@ -8,7 +8,7 @@ Main usage:
 rm -rf /srv/mail && mkdir -p /srv/mail
 
 # start docker container
-docker run -d --restart=always --name mail
+docker run -d --restart=always --name mail\
     -e mydomain=inetlinux.com\
     -e securitylevel=may\
     -v /dev/log:/dev/log\
