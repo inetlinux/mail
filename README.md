@@ -8,7 +8,6 @@ The LDAP directory needs to keep several information needed by Postfix and Dovec
 * Location of the maildir
 * List of mail aliases for a given user to allow one user to have several mail adresses.
 
-
 Usage
 -----
 
