@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:7
 
 ENV mydomain=inetlinux.com
 ENV securitylevel=encrypt
